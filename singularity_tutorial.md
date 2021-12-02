@@ -39,7 +39,7 @@ cd sandbox
 
 #### Pull an existing container image that someone else posted:
 ```
-singularity pull --name mytranslator.sif docker://monaghaa/mytranslator
+singularity pull --name mytranslator.sif shub://monaghaa/mytranslator
 ```
 
 #### Now run it:
