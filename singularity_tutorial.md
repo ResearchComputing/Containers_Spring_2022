@@ -39,7 +39,7 @@ cd sandbox
 
 #### Pull an existing container image that someone else posted:
 ```
-singularity pull --name mytranslator.sif shub://monaghaa/mytranslator
+singularity pull --name mytranslator.sif docker://monaghaa/mytranslator
 ```
 
 #### Now run it:
@@ -70,64 +70,35 @@ singularity exec mytranslator.sif python ./text_translate.py
 ```
 You just used the containerized version of python to run a local version of a python script.
 
-## Running a container from Docker Hub
-
-#### Now let’s grab the stock docker python container:
+ #### We can also invoke a simple python shell from the container:
 ```
-singularity pull --name pythonmini.sif docker://minidocks/python
-```
-
- #### …And run python from it:
-```
-singularity exec pythonmini.sif python
+singularity exec mytranslator.sif python
 ```
 
 Type `exit()` to exit python.
 
 #### Now shell into the container and look around:
 ```
-singularity shell pythonmini.sif
+singularity shell mytranslator.sif
 ```
 
 Try typing _`ls /`_. What directories do you see?:
  
 Now exit the container by typing `exit`
 
-#### Let’s run an external python script using the containerized version of python: 
-
-_First create a script called “myscript.py” as follows:_
-```
-echo 'print("hello world from the outside")' >myscript.py
-```
-
-_Now let’s run the script using the containerized python_
-```
-singularity exec pythonmini.sif python ./myscript.py
-```
-
-__Conclusion: Scripts and data can be kept inside or outside the container. In some instances (e.g., large datasets or scripts that will change frequently) it is easier to containerize the software and keep everything else outside.__
-
 ## Binding directories to a container
 
 On Summit, most host directories are “bound” (mounted) by default. But on other systems, or in some instances on Summit, you may want to access a directory that is not already mounted. Let’s try it.
 
-Note that the “/opt” directory in ”pythonmini.sif” is empty. But the Summit ”/opt” directory is not.  
+Note that the “/mnt" directory in ”mytranslator.sif” empty. But say we want to bind the Summit ”/opt” directory to it...  
 
 #### Let’s bind it:
 ```
-singularity shell --bind /opt:/opt pythonmini.sif
+singularity shell --bind /opt:/mnt mytranslator.sif
 ```
 
-Now from within the container type "ls -l /opt" and see if it matches what you see from the outside of the container if you type the same thing. When you are done, type `exit` to get out of the container.
+Now from within the container type "ls -l /mnt" and see if it matches what you see from the outside of the container if you type the same thing. When you are done, type `exit` to get out of the container.
 
-It isn’t necessary to bind like-named directories like we did above... 
- 
- #### Try binding your /home/$USER directory to /opt.
-```
-singularity shell --bind /home/$USER:/opt pythonmini.sif
-```
-
-Now from within the container type "ls -l $HOME" and see if it matches what you see from the outside of the container if you type the same thing. Type `exit` when done.
 
 _Note: If your host system does not allow binding, you will need to create the host directories you want mounted when you build the container (as root on, e.g., your laptop)_
 
