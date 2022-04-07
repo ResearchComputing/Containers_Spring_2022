@@ -1,8 +1,10 @@
 FROM ubuntu:18.04
 
-RUN apt-get update; \
-    apt-get install nano -y; \
-    apt-get install gcc -y; \
-    mkdir target;
+RUN apt-get update && apt-get install -y \
+  gcc \
+  nano \
+  vim 
 
 WORKDIR /target
+
+CMD bash

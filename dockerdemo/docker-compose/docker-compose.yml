@@ -1,7 +1,5 @@
 version: '3'
 
 services:
-  test-python:
+  python-demo:
     build: .
-    volumes:
-      - ./source:/target

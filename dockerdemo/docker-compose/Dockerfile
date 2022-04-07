@@ -1,6 +1,7 @@
 FROM python:3-slim
 
-RUN cd /;         \
-    mkdir target;
-
 WORKDIR /target
+
+COPY source .
+
+CMD python sample.py
